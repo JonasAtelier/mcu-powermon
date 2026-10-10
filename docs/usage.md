@@ -109,10 +109,11 @@ three changes:
   device and failed at the first write.
 - **Bus errors pass through errno.** The bus layer maps IDF's codes to errno
   and the handle API maps them back: `ESP_ERR_TIMEOUT`, `ESP_ERR_INVALID_ARG`,
-  `ESP_ERR_NOT_FOUND`, `ESP_ERR_INVALID_SIZE`, `ESP_ERR_NO_MEM` and
-  `ESP_ERR_NOT_SUPPORTED` come back as themselves, and any other code —
-  `ESP_ERR_INVALID_STATE`, which IDF 5.5 gives for a NACK in the middle of a
-  transfer, included — as `ESP_FAIL`.
+  `ESP_ERR_NOT_FOUND`, `ESP_ERR_INVALID_SIZE` and `ESP_ERR_NO_MEM` come back
+  as themselves, and any other code — `ESP_ERR_INVALID_STATE`, which IDF 5.5
+  gives for a NACK in the middle of a transfer, and `ESP_ERR_NOT_SUPPORTED`
+  included — as `ESP_FAIL`. `ESP_ERR_NOT_SUPPORTED` itself comes only from
+  `ina2xx_reset_accumulators()` on a part other than the INA228.
 - **A failed read leaves the reading alone.** esp-ina2xx-sensor cleared
   `*out` before reading, so a failure left it half-written; it is written
   only on success now, as on the HAL. `ina2xx_del()` returns `ESP_OK`
