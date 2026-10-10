@@ -1,0 +1,51 @@
+# Read by ESP-IDF as a component Kconfig, and by both forges' `make menu`
+# (scripts/menu.py) for the POWERMON_<CHIP> prompts. stm-forge has no Kconfig
+# build step: its build only sees the defconfig lines, as
+# -DCONFIG_POWERMON_<CHIP>=1 or 0. Every chip is off unless set.
+menuconfig POWERMON
+    bool "Power monitor subsystem"
+    default y
+    help
+        The powermon core: struct powermon_dev, powermon_read() and the
+        powermon_* log helpers. Pick the chip drivers you need below; none
+        is built by default, so a chip missing from sdkconfig is off.
+
+if POWERMON
+
+    config POWERMON_INA219
+        bool "TI INA219 (I2C)"
+        default n
+        help
+            Build the INA2xx driver's INA219 model: ina2xx_probe() and
+            ina2xx_init() with .model = INA219.
+
+    config POWERMON_INA226
+        bool "TI INA226 (I2C)"
+        default n
+        help
+            Build the INA2xx driver's INA226 model: ina2xx_probe() and
+            ina2xx_init() with .model = INA226.
+
+    config POWERMON_INA228
+        bool "TI INA228 (I2C)"
+        default n
+        help
+            Build the INA2xx driver's INA228 model, with its energy and
+            charge accumulators: ina2xx_probe() and ina2xx_init() with
+            .model = INA228.
+
+    config POWERMON_INA237
+        bool "TI INA237 (I2C)"
+        default n
+        help
+            Build the INA2xx driver's INA237 model: ina2xx_probe() and
+            ina2xx_init() with .model = INA237.
+
+    config POWERMON_DEBUG
+        bool "powermon_dbg() lines"
+        default n
+        help
+            STM32 HAL only: compile powermon_dbg() lines in. On ESP-IDF
+            powermon_dbg() is ESP_LOGD and the log level decides.
+
+endif # POWERMON
