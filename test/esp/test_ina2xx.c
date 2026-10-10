@@ -213,8 +213,9 @@ static void test_init_ina226(void)
 
 	assert(probed_addr == 0x45 && dev_addr == 0x45);
 	assert(writes == 2);
-	/* AVG=010 (16), VBUSCT=VSHCT=100 (1.1 ms), MODE=111 */
-	assert(wlog[0].reg == 0x00 && wlog[0].val == 0x0527);
+	/* D14=1 (its POR value), AVG=010 (16), VBUSCT=VSHCT=100 (1.1 ms),
+	 * MODE=111 */
+	assert(wlog[0].reg == 0x00 && wlog[0].val == 0x4527);
 	assert(wlog[1].reg == 0x05 &&
 	       wlog[1].val == ina226_cal(ina226_current_lsb(3.2f), 0.1f, 0.5));
 	ina2xx_del(h);

@@ -39,6 +39,7 @@
 #define INA219_MODE_CONT	0x7u		/* shunt and bus, continuous */
 
 /* INA226 CONFIG: SBOS547C Table 7-2 to 7-6. */
+#define INA226_CONFIG_D14	(1u << 14)	/* unnamed, POR 1, Table 7-2 */
 #define INA226_AVG_SHIFT	9		/* bits 11:9, Table 7-3 */
 #define INA226_VBUSCT_1100US	(4u << 6)	/* Table 7-4 */
 #define INA226_VSHCT_1100US	(4u << 3)	/* Table 7-5 */

@@ -101,9 +101,10 @@ These are hardcoded to keep the API small; the values are in
   write them on the same bus after the probe, as nexus_p does for the
   INA237's `SOVL`, `BUVL` and `DIAG_ALRT`.
 
-One departure from a reset default: the INA226's `CONFIG` bit 14 resets to 1
-(SBOS547C Table 7-2) and the driver writes 0 there, as both old libraries
-did. The table gives the bit no name or function.
+The INA226's `CONFIG` bit 14 has no name or function in SBOS547C Table 7-2,
+but resets to 1, and TI's own configuration examples keep it set (Table 8-1,
+4025h; Table 8-2, 4005h), so the driver writes it as 1 too. Both old
+libraries wrote 0 there.
 
 ### Provenance
 

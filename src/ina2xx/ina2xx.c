@@ -155,11 +155,14 @@ static int configure(struct ina2xx_state *st, const ina2xx_config_t *cfg)
         st->current_lsb = ina226_current_lsb(cfg->max_current_a);
         cal = ina226_cal(st->current_lsb, cfg->shunt_ohms, trim);
         if (cal == 0) return -EINVAL;
-        /* Both conversion times at the 1.1ms default, continuous shunt+bus. */
+        /* Both conversion times at the 1.1ms default, continuous shunt+bus.
+         * D14 kept at its POR 1, as TI's own CONFIG examples write it
+         * (SBOS547C Table 8-1, 4025h; Table 8-2, 4005h). */
         avg = avg_code(avg_tbl_2268, cfg->avg_samples);
         err = reg_write(st, REG16_CONFIG,
-                        (avg << INA226_AVG_SHIFT) | INA226_VBUSCT_1100US |
-                        INA226_VSHCT_1100US | INA226_MODE_CONT);
+                        INA226_CONFIG_D14 | (avg << INA226_AVG_SHIFT) |
+                        INA226_VBUSCT_1100US | INA226_VSHCT_1100US |
+                        INA226_MODE_CONT);
         if (err == 0) {
             err = reg_write(st, REG16_CAL, cal);
         }
