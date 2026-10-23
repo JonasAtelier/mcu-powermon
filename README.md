@@ -27,7 +27,8 @@ the ESP-IDF component directory `powermon` as well.
 > **Hardware unverified.** Host tests use simulated devices and platform stubs.
 > Nothing here has run on a physical chip.
 
-[Supported hardware](#supported-hardware) · [Install](#install) ·
+[Supported hardware](#supported-hardware) · [Drivers](#drivers) ·
+[Install](#install) ·
 [Quick start](#quick-start) · [Examples](#examples) ·
 [Documentation](#documentation) · [Tests](#tests)
 
@@ -35,15 +36,56 @@ the ESP-IDF component directory `powermon` as well.
 
 All four models support both platforms. Enable only the ones you need.
 
-| Chip | Bus | Measures |
+| Chip | Bus | Notes |
 |---|---|---|
-| **INA219** | I2C | bus and shunt voltage, current, power; 26 V bus |
-| **INA226** | I2C | the same, 16-bit, 36 V bus |
-| **INA228** | I2C | the same, 20-bit, 85 V bus, plus die temperature and energy and charge accumulators |
-| **INA237** | I2C | the same, 16-bit, 85 V bus, plus die temperature |
+| **INA219** | I2C | TI current and power monitor, 26 V bus |
+| **INA226** | I2C | TI current and power monitor, 36 V bus |
+| **INA228** | I2C | TI current and power monitor, 85 V bus |
+| **INA237** | I2C | TI current and power monitor, 85 V bus |
 
 Every part answers at `0x40` with A0 and A1 grounded; sixteen addresses in
 all. Wiring is in the [wiring guide](docs/hardware.md).
+
+## Drivers
+
+<details><summary><b>INA219</b> — I2C</summary>
+
+- Measures: bus and shunt voltage, current, power; 26 V bus
+- Examples: ESP-IDF [ina2xx](examples/esp/ina2xx/) · STM32 HAL
+  [ina2xx](examples/stm/ina2xx/main.c)
+- Chip reference: [INA2xx](docs/chips.md#ina2xx)
+
+</details>
+
+<details><summary><b>INA226</b> — I2C</summary>
+
+- Measures: the same as the INA219 (bus and shunt voltage, current, power),
+  16-bit, 36 V bus
+- Examples: ESP-IDF [ina2xx](examples/esp/ina2xx/) · STM32 HAL
+  [ina2xx](examples/stm/ina2xx/main.c)
+- Chip reference: [INA2xx](docs/chips.md#ina2xx)
+
+</details>
+
+<details><summary><b>INA228</b> — I2C</summary>
+
+- Measures: the same as the INA219 (bus and shunt voltage, current, power),
+  20-bit, 85 V bus, plus die temperature and energy and charge accumulators
+- Examples: ESP-IDF [ina2xx](examples/esp/ina2xx/) · STM32 HAL
+  [ina2xx](examples/stm/ina2xx/main.c)
+- Chip reference: [INA2xx](docs/chips.md#ina2xx)
+
+</details>
+
+<details><summary><b>INA237</b> — I2C</summary>
+
+- Measures: the same as the INA219 (bus and shunt voltage, current, power),
+  16-bit, 85 V bus, plus die temperature
+- Examples: ESP-IDF [ina2xx](examples/esp/ina2xx/) · STM32 HAL
+  [ina2xx](examples/stm/ina2xx/main.c)
+- Chip reference: [INA2xx](docs/chips.md#ina2xx)
+
+</details>
 
 ## Install
 
@@ -151,9 +193,7 @@ the `ina2xx_init()` API, logging and error codes.
 
 ## Examples
 
-| Sensor | ESP-IDF | STM32 HAL |
-|---|---|---|
-| INA219 / INA226 / INA228 / INA237 | [ina2xx](examples/esp/ina2xx/) | [ina2xx](examples/stm/ina2xx/main.c) |
+Each driver's examples are listed under [Drivers](#drivers).
 
 Both log a sample once a second; set `MODEL` and turn its option on. ESP-IDF
 examples already locate this library through `EXTRA_COMPONENT_DIRS`. With
