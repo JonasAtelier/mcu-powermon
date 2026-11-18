@@ -29,7 +29,8 @@ examples/
   stm/ina2xx/               STM32 snippet
 docs/                       the five guides; datasheet PDFs here are gitignored
 assets/                     README figure
-CMakeLists.txt              ESP-IDF only; stm-forge globs src/**/*.c instead
+CMakeLists.txt              ESP-IDF component; elsewhere a static library for add_subdirectory(); stm-forge globs src/**/*.c instead
+                            the static library's options are Kconfig's bool entries, found by the type line directly under each `config`
 Kconfig                     POWERMON and POWERMON_<CHIP>, for ESP-IDF and both forges' menus
 idf_component.yml           ESP-IDF component manifest
 ```
@@ -119,7 +120,8 @@ A driver is a probe, a remove and one read function:
    and leave `pm` as it was. Remove detaches too. Wait with
    `powermon_sleep_ms()`.
 4. Guard your chip-specific calls with `pm->ops == &foo_ops`.
-5. Add `CONFIG_POWERMON_FOO` to the no-chip checks in `CMakeLists.txt` and
+5. Add `CONFIG_POWERMON_FOO` to the no-chip checks in `CMakeLists.txt` (its
+   ESP-IDF part; the `add_subdirectory()` part reads `Kconfig`) and
    `src/powermon_port_stm.c` and to the HAL module `#error` in
    `src/powermon_priv.h`, a `src/foo/foo.c` line to `CMakeLists.txt`, a
    `config POWERMON_FOO` bool to `Kconfig`, `# POWERMON_FOO is not set` to

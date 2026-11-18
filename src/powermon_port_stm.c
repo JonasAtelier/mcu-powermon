@@ -11,13 +11,13 @@
 
 /*
  * The core is always built; each chip driver only under its own option. With
- * the library on and no chip picked, say so -- stm-forge compiles this file
- * only when PKG_powermon = y, so this is the CMakeLists' "POWERMON on, no
- * chip" warning on the ESP-IDF side.
+ * the library built and no chip picked, say so: this file is compiled only
+ * when the library is, so this is the CMakeLists' "no chip" warning for every
+ * build that never reads that file (stm-forge, a hand-made project).
  */
 #if !(CONFIG_POWERMON_INA219 || CONFIG_POWERMON_INA226 || \
       CONFIG_POWERMON_INA228 || CONFIG_POWERMON_INA237)
-#warning "powermon: no chip driver is selected; set POWERMON_<CHIP> = y under PKG_powermon = y (or -DCONFIG_POWERMON_<CHIP>=1)"
+#warning "powermon: no chip driver is selected; define CONFIG_POWERMON_<CHIP>=1 (stm-forge: POWERMON_<CHIP> = y)"
 #endif
 
 /* Milliseconds dressed as microseconds; see powermon.h for a real clock. */
