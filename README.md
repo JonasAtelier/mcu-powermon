@@ -4,6 +4,13 @@ Measure bus voltage, current and power over I2C with a TI INA219, INA226, INA228
 
 **Platforms** · ESP-IDF 5.2+ and STM32 HAL. Hardware testing is pending. The host tests use simulated devices.
 
+## Contents
+
+- [Quick start](#quick-start)
+- [Models and examples](#models-and-examples)
+- [Using the library in your project](#using-the-library-in-your-project)
+- [License](#license)
+
 ## Quick start
 
 The example enables an INA226. Match `SHUNT_OHMS` to the resistor on your board and `MAX_CURRENT_A` to the current range you want to measure. Check the part and board voltage ratings before connecting a load.
@@ -60,10 +67,18 @@ int read_once(I2C_HandleTypeDef *bus)
 
 </details>
 
+## Models and examples
+
+All four monitors measure bus voltage, shunt voltage, current and power. The INA237 and INA228 also report die temperature, and the INA228 accumulates energy and charge. Set `MODEL` to match your chip and use `powermon_read()` to read its measurements. [Shared API](include/powermon.h) · [Measurement fields by model](docs/chips.md#what-each-model-reports)
+
+| Models | Driver header | ESP-IDF project | STM32 HAL example |
+|---|---|---|---|
+| INA219, INA226, INA228, INA237 | [ina2xx.h](include/ina2xx.h) | [Configurable I2C monitor](examples/esp/ina2xx/) | [Configurable I2C monitor](examples/stm/ina2xx/main.c) |
+
 ## Using the library in your project
 
 - Add the component and enable the driver for your hardware. [Installation and build options](docs/installation.md)
-- Start from an example for your chip. The STM32 examples fit into a project with board setup already in place. [ESP-IDF examples](examples/esp/) · [STM32 examples](examples/stm/)
+- Open the ESP-IDF project for your hardware, or copy the STM32 example into a project with board setup already in place. [All ESP-IDF examples](examples/esp/) · [All STM32 examples](examples/stm/)
 - Look up calls and chip-specific settings. [API usage](docs/usage.md) · [Hardware reference](docs/chips.md)
 
 To run the simulated tests on your computer, run `make -C test test` from the library root. [Test requirements and coverage](docs/development.md)
@@ -78,3 +93,5 @@ To run the simulated tests on your computer, run `make -C test test` from the li
        width="520">
   <br><sub>Adafruit INA219 breakout &mdash; photo <a href="https://www.adafruit.com/product/904">Adafruit Industries</a></sub>
 </p>
+
+[Browse the workshop catalog · ESP32 and STM32 drivers](https://github.com/JonasAtelier/jonas-atelier-libraries#esp32-and-stm32-drivers)
